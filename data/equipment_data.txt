@@ -1,0 +1,4 @@
+Helmet,Шлем Arai,15000,1.5,M
+Jacket,Куртка Alpinestars,20000,3.0,Кожа
+Gloves,Перчатки Dainese,5000,0.5,Спортивные
+Boots,Ботинки Sidi,10000,2.0,42
