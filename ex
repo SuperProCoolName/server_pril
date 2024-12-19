@@ -1,0 +1,1 @@
+docker logs -f oop-api-1

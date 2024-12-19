@@ -1,38 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class RecipeService {
-  constructor(private readonly prisma: PrismaService) {}
+  private recipes = [];
+  private id = 0;
 
   create(createRecipeDto: CreateRecipeDto) {
-    return this.prisma.recipe.create({
-      data: createRecipeDto,
-    });
+    const recipe = { id: ++this.id, ...createRecipeDto };
+    this.recipes.push(recipe);
+    return recipe;
   }
 
   findAll() {
-    return this.prisma.recipe.findMany();
+    return this.recipes;
   }
 
   findOne(id: number) {
-    return this.prisma.recipe.findUnique({
-      where: { id },
-    });
+    return this.recipes.find((recipe) => recipe.id === id);
   }
 
   update(id: number, updateRecipeDto: UpdateRecipeDto) {
-    return this.prisma.recipe.update({
-      where: { id },
-      data: updateRecipeDto,
-    });
+    const index = this.recipes.findIndex((recipe) => recipe.id === id);
+    if (index > -1) {
+      this.recipes[index] = { ...this.recipes[index], ...updateRecipeDto };
+      return this.recipes[index];
+    }
+    return null;
   }
 
   remove(id: number) {
-    return this.prisma.recipe.delete({
-      where: { id },
-    });
+    const index = this.recipes.findIndex((recipe) => recipe.id === id);
+    if (index > -1) {
+      return this.recipes.splice(index, 1)[0];
+    }
+    return null;
   }
 }
